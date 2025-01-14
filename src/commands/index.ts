@@ -1,4 +1,6 @@
 export * from './start'
+export * from './notice'
+export * from './help'
 export * from './rate'
 export * from './inactive'
 export * from './fee'

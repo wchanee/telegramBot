@@ -22,7 +22,7 @@ export const commandRemoveSpot = async ({
 			await sendMessage({
 				idChat,
 				idReplyTo,
-				message: `移除Spot记录成功！`,
+				message: `移除Spot记录成功!`,
 			})
 		}
 	} else {

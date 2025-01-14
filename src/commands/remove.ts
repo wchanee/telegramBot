@@ -22,7 +22,7 @@ export const commandRemove = async ({
 			await sendMessage({
 				idChat,
 				idReplyTo,
-				message: `移除Fiat记录成功！`,
+				message: `移除Fiat记录成功!`,
 			})
 		}
 	} else {

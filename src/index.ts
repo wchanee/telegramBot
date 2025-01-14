@@ -1,5 +1,7 @@
 import {
 	commandStart,
+	commandNotice,
+	commandHelp,
 	commandRate,
 	commandInactive,
 	commandFee,
@@ -74,5 +76,9 @@ bot.on('callback_query', query => {
 
 	if (query.data === 'pdf') commandPDF(idChat)
 
-	if (query.data === 'help') commandStart(idChat)
+	if (query.data === 'start') commandStart(idChat)
+
+	if (query.data === 'help') commandHelp(idChat)
+
+	if (query.data === 'notice') commandNotice(idChat)
 })

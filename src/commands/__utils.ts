@@ -23,10 +23,10 @@ export const sendMessage = async ({
 			reply_markup: {
 				inline_keyboard: [
 					hideReport
-						? [{ text: '帮助', callback_data: 'help' }]
+						? [{ text: '详细说明 📍', callback_data: 'help' }]
 						: [
-								{ text: '导出PDF', callback_data: 'pdf' },
-								{ text: '帮助', callback_data: 'help' },
+								{ text: '导出PDF 📕', callback_data: 'pdf' },
+								{ text: '详细说明 📍', callback_data: 'help' },
 							],
 				],
 			},
