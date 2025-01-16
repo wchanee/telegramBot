@@ -12,7 +12,7 @@ export const commandInactive = async ({
 	await sendMessage({
 		idChat,
 		idReplyTo,
-		message: '❌ 请先使用 <b>开工</b> 命令启动记账管理机器人!',
+		message: '❌ 请先使用 开工 命令启动记账管理机器人!',
 		hideReport,
 	})
 }

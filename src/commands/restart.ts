@@ -10,9 +10,9 @@ export const commandRestart = async (idChat: number) => {
 		idChat,
 		`
 		📢设置收工成功!
-		所有数据已经重置
-		祝您2025顺风顺水顺顺财神
-		明日依旧丝滑
+		所有数据已经重置,
+		祝您2025顺风顺水顺顺财神,
+		明日依旧丝滑。
 		`,
 		{
 			parse_mode: 'HTML',

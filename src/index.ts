@@ -20,77 +20,37 @@ import { state } from '@/state'
 import { authorization } from './authorization'
 import { commandPDF } from './commands/pdf'
 
-// bot.on('message', async msg => {
-// 	if (!msg.text) return
-// 	const idChat = msg.chat.id
-// 	const command = msg.text
-// 	const idReplyTo = msg.message_id
-// 	const idUser = msg.from?.id
-
-// 	const [operation, value] = command.split(' ')
-
-// 	const data = {
-// 		idChat,
-// 		idReplyTo,
-// 		idUser,
-// 		value,
-// 	}
-// 	const success = await validate({ ...data, operation })
-
-// 	if (!success) return
-
-// 	await authorization(data)
-
-// 	if (operation === 'start') await commandStart(idChat)
-
-// 	if (operation === 'restart') await commandRestart(idChat)
-
-// 	if (!state.isActive) {
-// 		await commandInactive(data)
-// 		return
-// 	}
-
-// 	if (operation === 'rate') await commandRate(data)
-
-// 	if (operation === 'fee') await commandFee(data)
-
-// 	if (operation === 'add') await commandAdd(data)
-
-// 	if (operation === 'convert') await commandConvert(data)
-
-// 	if (operation === 'remove') await commandRemove(data)
-
-// 	if (operation === 'removeSpot') await commandRemoveSpot(data)
-
-// 	if (operation === 'withdraw') await commandWithdraw(data)
-
-// 	if (operation === 'withdrawSpot') await commandWithdrawSpot(data)
-
-// 	if (operation === 'restore') await commandRestore(data)
-// })
-
 bot.on('message', async msg => {
 	if (!msg.text) return
 	const idChat = msg.chat.id
-	const command = msg.text
+	const command = msg.text.trim()
 	const idReplyTo = msg.message_id
 	const idUser = msg.from?.id
 
-	// Check if the user is an admin or creator
 	try {
-		await authorization({ idChat, idUser }) // Only admins/creators can proceed
+		await authorization({ idChat, idUser }) // Only admins can proceed
 	} catch (error) {
-		// Respond to unauthorized users
 		await bot.sendMessage(
 			idChat,
-			`❌ You do not have permission to use this bot.`,
+			`❌ 您没有权限或权限已过期，请打开机器人申请使用或联系客服授权。`,
 			{ reply_to_message_id: idReplyTo }
 		)
 		return
 	}
 
-	// Split the command and process it
-	const [operation, value] = command.split(' ')
+	// const [operation, value] = command.split(' ')
+
+	// Regex to extract operation and value
+	const match = command.match(/^([a-zA-Z]+)(\d+)?$/)
+	if (!match) {
+		await bot.sendMessage(idChat, `❌ 指令不正确或格式错误`, {
+			reply_to_message_id: idReplyTo,
+		})
+		return
+	}
+
+	const operation = match[1] // Command name, e.g., "add"
+	const value = match[2] // Optional numeric value, e.g., "100"
 
 	const data = {
 		idChat,
@@ -103,8 +63,8 @@ bot.on('message', async msg => {
 
 	if (!success) return
 
-	// Handle commands based on the operation
 	if (operation === 'start') await commandStart(idChat)
+
 	if (operation === 'restart') await commandRestart(idChat)
 
 	if (!state.isActive) {
@@ -113,13 +73,21 @@ bot.on('message', async msg => {
 	}
 
 	if (operation === 'rate') await commandRate(data)
+
 	if (operation === 'fee') await commandFee(data)
+
 	if (operation === 'add') await commandAdd(data)
+
 	if (operation === 'convert') await commandConvert(data)
+
 	if (operation === 'remove') await commandRemove(data)
+
 	if (operation === 'removeSpot') await commandRemoveSpot(data)
+
 	if (operation === 'withdraw') await commandWithdraw(data)
+
 	if (operation === 'withdrawSpot') await commandWithdrawSpot(data)
+
 	if (operation === 'restore') await commandRestore(data)
 })
 

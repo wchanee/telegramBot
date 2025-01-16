@@ -17,13 +17,13 @@ export const commandRate = async ({
 		await sendMessage({
 			idChat,
 			idReplyTo,
-			message: `汇率设置成功！当前汇率: ${value}`,
+			message: `✔️ 汇率设置成功！当前汇率: ${value}`,
 		})
 	} else {
 		await sendMessage({
 			idChat,
 			idReplyTo,
-			message: `格式错误，正确格式为 rate:number 
+			message: `❌ 格式错误，正确格式为 rate[设置汇率number, 例:+设置汇率4.55],
             汇率设置不成功！当前汇率: ${state.rate}`,
 		})
 	}

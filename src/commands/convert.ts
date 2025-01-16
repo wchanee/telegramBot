@@ -21,12 +21,12 @@ export const commandConvert = async ({
 			date: new Date(),
 			condition: 'normal',
 		})
-		await sendMessage({ idChat, idReplyTo, message: '转换成功！' })
+		await sendMessage({ idChat, idReplyTo, message: '✔️ 转换成功！' })
 	} else {
 		await sendMessage({
 			idChat,
 			idReplyTo,
-			message: `格式错误，正确格式为 convert:number`,
+			message: `❌ 格式错误，正确格式为 convert[转换number, 例:转换100]。`,
 		})
 	}
 }

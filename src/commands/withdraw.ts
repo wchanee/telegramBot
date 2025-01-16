@@ -24,13 +24,13 @@ export const commandWithdraw = async ({
 		await sendMessage({
 			idChat,
 			idReplyTo,
-			message: `取款成功！`,
+			message: `✔️ 取款成功！`,
 		})
 	} else {
 		await sendMessage({
 			idChat,
 			idReplyTo,
-			message: `格式错误，正确格式为 withdraw:number`,
+			message: `❌ 格式错误，正确格式为 withdraw[-number, 例:-100]。`,
 		})
 	}
 }

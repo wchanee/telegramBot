@@ -22,15 +22,15 @@ export const commandRestore = async ({
 			await sendMessage({
 				idChat,
 				idReplyTo,
-				message: `恢复记录成功！`,
+				message: `✔️ 恢复记录成功！`,
 			})
 		}
 	} else {
 		await sendMessage({
 			idChat,
 			idReplyTo,
-			message: `格式错误，正确格式为 restore:id
-			并且id不可大于记录数量`,
+			message: `❌ 格式错误，正确格式为 restore[恢复id, 例:恢复1],
+			并且id不可大于记录数量。`,
 		})
 	}
 }

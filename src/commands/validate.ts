@@ -28,7 +28,7 @@ export const validate = async ({
 			hideReport: true,
 			idChat,
 			idReplyTo,
-			message: `指令不正确`,
+			message: `❌ 指令不正确或格式错误`,
 		})
 
 	return success

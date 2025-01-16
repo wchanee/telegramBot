@@ -21,12 +21,12 @@ export const commandAdd = async ({
 			date: new Date(),
 			condition: 'normal',
 		})
-		await sendMessage({ idChat, idReplyTo, message: '入款成功！' })
+		await sendMessage({ idChat, idReplyTo, message: '✔️ 入款成功！' })
 	} else {
 		await sendMessage({
 			idChat,
 			idReplyTo,
-			message: `格式错误，正确格式为 add:number`,
+			message: `❌ 格式错误，正确格式为 add[+number, 例:+100]。`,
 		})
 	}
 }

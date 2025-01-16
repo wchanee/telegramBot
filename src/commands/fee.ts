@@ -17,14 +17,14 @@ export const commandFee = async ({
 		await sendMessage({
 			idChat,
 			idReplyTo,
-			message: `手续费设置成功！当前手续费: ${value}%`,
+			message: `✔️ 费率设置成功！当前费率: ${value}%`,
 		})
 	} else {
 		await sendMessage({
 			idChat,
 			idReplyTo,
-			message: `格式错误，正确格式为 fee:number 
-            手续费设置不成功！当前手续费: ${state.fee}%`,
+			message: `❌ 格式错误，正确格式为 fee[设置费率number, 例:+设置费率1],
+            费率设置不成功！当前费率: ${state.fee}%`,
 		})
 	}
 }

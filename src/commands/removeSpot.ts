@@ -22,15 +22,15 @@ export const commandRemoveSpot = async ({
 			await sendMessage({
 				idChat,
 				idReplyTo,
-				message: `移除Spot记录成功!`,
+				message: `✔️ 移除Spot记录成功!`,
 			})
 		}
 	} else {
 		await sendMessage({
 			idChat,
 			idReplyTo,
-			message: `格式错误，正确格式为 removeSpot:id
-			并且id不可大于记录数量`,
+			message: `❌ 格式错误，正确格式为 removeSpot[移除Spotid, 例:移除Spot1],
+			并且id不可大于记录数量。`,
 		})
 	}
 }
