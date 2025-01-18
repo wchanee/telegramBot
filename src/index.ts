@@ -5,7 +5,7 @@ import {
 	commandRate,
 	commandInactive,
 	commandFee,
-	commandAdd,
+	commandDeposit,
 	commandConvert,
 	commandRemove,
 	commandRemoveSpot,
@@ -14,6 +14,8 @@ import {
 	validate,
 	commandRestart,
 	commandRestore,
+	commandEnableChat,
+	commandRestrictChat,
 } from '@/commands'
 import { bot } from '@/bot'
 import { state } from '@/state'
@@ -27,30 +29,7 @@ bot.on('message', async msg => {
 	const idReplyTo = msg.message_id
 	const idUser = msg.from?.id
 
-	try {
-		await authorization({ idChat, idUser }) // Only admins can proceed
-	} catch (error) {
-		await bot.sendMessage(
-			idChat,
-			`❌ 您没有权限或权限已过期，请打开机器人申请使用或联系客服授权。`,
-			{ reply_to_message_id: idReplyTo }
-		)
-		return
-	}
-
-	// const [operation, value] = command.split(' ')
-
-	// Regex to extract operation and value
-	const match = command.match(/^([a-zA-Z]+)(\d+)?$/)
-	if (!match) {
-		await bot.sendMessage(idChat, `❌ 指令不正确或格式错误`, {
-			reply_to_message_id: idReplyTo,
-		})
-		return
-	}
-
-	const operation = match[1] // Command name, e.g., "add"
-	const value = match[2] // Optional numeric value, e.g., "100"
+	const [operation, value] = command.split(' ')
 
 	const data = {
 		idChat,
@@ -63,6 +42,8 @@ bot.on('message', async msg => {
 
 	if (!success) return
 
+	await authorization(data)
+
 	if (operation === 'start') await commandStart(idChat)
 
 	if (operation === 'restart') await commandRestart(idChat)
@@ -72,11 +53,15 @@ bot.on('message', async msg => {
 		return
 	}
 
+	if (operation === '上课') await commandEnableChat(idChat)
+
+	if (operation === '下课') await commandRestrictChat(idChat)
+
 	if (operation === 'rate') await commandRate(data)
 
 	if (operation === 'fee') await commandFee(data)
 
-	if (operation === 'add') await commandAdd(data)
+	if (operation === 'add') await commandDeposit(data)
 
 	if (operation === 'convert') await commandConvert(data)
 

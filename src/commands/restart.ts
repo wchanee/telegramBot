@@ -4,7 +4,7 @@ import { state } from '@/state'
 export const commandRestart = async (idChat: number) => {
 	state.rate = 4.45
 	state.fee = 2
-	state.records = []
+	state.recordsFiat = []
 
 	return await bot.sendMessage(
 		idChat,

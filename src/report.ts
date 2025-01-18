@@ -2,7 +2,9 @@ import { state } from '@/state'
 import { format } from 'date-fns'
 
 export const report = () => {
-	const { records, rate, fee } = state
+	const { recordsFiat = {}, rate, fee } = state
+
+	const records = Object.values(recordsFiat)
 
 	const {
 		depositFiatEntries,
@@ -55,9 +57,9 @@ export const report = () => {
 			{ fee, date, rate, value, status, condition },
 			i
 		) => {
-			const signFiat = status === 'depositedFiat' ? '+' : '-'
+			const signFiat = status === 'deposited' ? '+' : '-'
 
-			const signSpot = status === 'depositedSpot' ? '+' : '-'
+			const signSpot = status === 'deposited' ? '+' : '-'
 
 			const fee_ = fee / 100
 
@@ -74,47 +76,46 @@ export const report = () => {
 			return {
 				totalWithdrawFiat:
 					totalWithdrawFiat +
-					(status === 'withdrawnFiat' && condition === 'normal'
+					(status === 'withdrawn' && condition === 'normal'
 						? value * (1 - fee_)
 						: 0),
 				totalWithdrawSpot:
 					totalWithdrawSpot +
-					(status === 'withdrawnSpot' && condition === 'normal'
+					(status === 'withdrawn' && condition === 'normal'
 						? value * (1 - fee_)
 						: 0),
 				totalDepositFiat:
 					totalDepositFiat +
-					(status === 'depositedFiat' && condition === 'normal'
+					(status === 'deposited' && condition === 'normal'
 						? value * (1 - fee_)
 						: 0),
 
 				totalDepositSpot:
 					totalDepositSpot +
-					(status === 'depositedSpot' && condition === 'normal'
+					(status === 'deposited' && condition === 'normal'
 						? value * (1 - fee_)
 						: 0),
 				depositFiatEntries:
-					depositFiatEntries + (status === 'depositedFiat' ? 1 : 0),
+					depositFiatEntries + (status === 'deposited' ? 1 : 0),
 				depositSpotEntries:
-					depositSpotEntries + (status === 'depositedSpot' ? 1 : 0),
+					depositSpotEntries + (status === 'deposited' ? 1 : 0),
 				withdrawFiatEntries:
-					withdrawFiatEntries + (status === 'withdrawnFiat' ? 1 : 0),
+					withdrawFiatEntries + (status === 'withdrawn' ? 1 : 0),
 				withdrawSpotEntries:
-					withdrawSpotEntries + (status === 'withdrawnSpot' ? 1 : 0),
+					withdrawSpotEntries + (status === 'withdrawn' ? 1 : 0),
 				removeEntriesFiat: removeEntriesFiat + (condition === 'remove' ? 1 : 0),
-				removeEntriesSpot:
-					removeEntriesSpot + (condition === 'removeSpot' ? 1 : 0),
+				removeEntriesSpot: removeEntriesSpot + (condition === 'remove' ? 1 : 0),
 				tableFiatRows: [
 					...tableFiatRows,
 					...(condition === 'normal' &&
-					(status === 'depositedFiat' || status === 'withdrawnFiat')
+					(status === 'deposited' || status === 'withdrawn')
 						? [rowFiat]
 						: []),
 				],
 				tableSpotRows: [
 					...tableSpotRows,
 					...(condition === 'normal' &&
-					(status === 'depositedSpot' || status === 'withdrawnSpot')
+					(status === 'deposited' || status === 'withdrawn')
 						? [rowSpot]
 						: []),
 				],
@@ -124,7 +125,7 @@ export const report = () => {
 				],
 				removedRowsSpot: [
 					...removedRowsSpot,
-					...(condition === 'removeSpot' ? [rowSpot] : []),
+					...(condition === 'remove' ? [rowSpot] : []),
 				],
 			}
 		},

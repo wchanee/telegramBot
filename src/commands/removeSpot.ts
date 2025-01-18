@@ -5,20 +5,18 @@ import { sendMessage } from './__utils'
 export const commandRemoveSpot = async ({
 	idChat,
 	idReplyTo,
+	// id: value,
 	value,
 }: {
+	// id: string | undefined
 	value: string | undefined
 	idChat: number
 	idReplyTo: number
 }) => {
-	const value_ = Number(value)
-	if (
-		coerce.number().min(0).int().max(state.records.length).safeParse(value_)
-			.success
-	) {
-		const record = state.records[value_ - 1]
+	if (value && state.recordsSpot[value]) {
+		const record = state.recordsSpot[value]
 		if (record) {
-			record.condition = 'removeSpot'
+			record.condition = 'remove'
 			await sendMessage({
 				idChat,
 				idReplyTo,

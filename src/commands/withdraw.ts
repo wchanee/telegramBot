@@ -11,20 +11,20 @@ export const commandWithdraw = async ({
 	idChat: number
 	idReplyTo: number
 }) => {
-	const value_ = Number(value)
-	if (coerce.number().min(0).safeParse(value_).success) {
-		state.records.push({
-			value: value_,
+	if (coerce.number().min(0).safeParse(value).success) {
+		const length = Object.keys(state.recordsFiat).length
+		state.recordsFiat[length + 1] = {
+			value: Number(value),
 			fee: state.fee,
 			rate: state.rate,
-			status: 'withdrawnFiat',
+			status: 'withdrawn',
 			date: new Date(),
 			condition: 'normal',
-		})
+		}
 		await sendMessage({
 			idChat,
 			idReplyTo,
-			message: `✔️ 取款成功！`,
+			message: `✔️ 下发成功！`,
 		})
 	} else {
 		await sendMessage({

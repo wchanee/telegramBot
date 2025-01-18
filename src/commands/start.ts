@@ -6,7 +6,7 @@ export const commandStart = async (idChat: number) => {
 	return await bot.sendMessage(
 		idChat,
 		`
-📢 <b>记账管理机器人已成功启动！</b>
+📢 记账管理机器人已成功启动！
 祝您记账愉快！ 😊
         `,
 		{

@@ -1,5 +1,5 @@
 import { state } from '@/state'
-import { coerce } from 'zod'
+
 import { sendMessage } from './__utils'
 
 export const commandRemove = async ({
@@ -11,12 +11,8 @@ export const commandRemove = async ({
 	idChat: number
 	idReplyTo: number
 }) => {
-	const value_ = Number(value)
-	if (
-		coerce.number().min(0).int().max(state.records.length).safeParse(value_)
-			.success
-	) {
-		const record = state.records[value_ - 1]
+	if (value && state.recordsFiat[value]) {
+		const record = state.recordsFiat[value]
 		if (record) {
 			record.condition = 'remove'
 			await sendMessage({

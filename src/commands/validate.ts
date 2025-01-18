@@ -22,13 +22,15 @@ export const validate = async ({
 		'withdrawSpot',
 		'restore',
 		'restart',
+		'上课',
+		'下课',
 	]).safeParse(operation)
 	if (!success)
 		await sendMessage({
 			hideReport: true,
 			idChat,
 			idReplyTo,
-			message: `❌ 指令不正确或格式错误`,
+			message: `❌ 指令不正确或格式错误！`,
 		})
 
 	return success

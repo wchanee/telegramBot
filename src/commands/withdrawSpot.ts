@@ -11,16 +11,16 @@ export const commandWithdrawSpot = async ({
 	idChat: number
 	idReplyTo: number
 }) => {
-	const value_ = Number(value)
-	if (coerce.number().min(0).safeParse(value_).success) {
-		state.records.push({
-			value: value_,
+	if (coerce.number().min(0).safeParse(value).success) {
+		const length = Object.keys(state.recordsSpot).length
+		state.recordsSpot[length + 1] = {
+			value: Number(value),
 			fee: state.fee,
 			rate: state.rate,
-			status: 'withdrawnSpot',
+			status: 'withdrawn',
 			date: new Date(),
 			condition: 'normal',
-		})
+		}
 		await sendMessage({
 			idChat,
 			idReplyTo,
