@@ -1,172 +1,132 @@
 import { state } from '@/state'
 import { format } from 'date-fns'
 
-export const report = () => {
-	const { recordsFiat = {}, rate, fee } = state
-
-	const records = Object.values(recordsFiat)
-
-	const {
-		depositFiatEntries,
-		depositSpotEntries,
-		tableFiatRows,
-		tableSpotRows,
-		totalDepositFiat,
-		totalWithdrawFiat,
-		totalDepositSpot,
-		totalWithdrawSpot,
-		withdrawFiatEntries,
-		withdrawSpotEntries,
-		removeEntriesFiat,
-		removeEntriesSpot,
-		removedRowsFiat,
-		removedRowsSpot,
-	} = records.reduce<{
-		tableFiatRows: string[]
-		tableSpotRows: string[]
-		depositFiatEntries: number
-		depositSpotEntries: number
-		withdrawFiatEntries: number
-		withdrawSpotEntries: number
-		removeEntriesFiat: number
-		removeEntriesSpot: number
-		totalDepositFiat: number
-		totalWithdrawFiat: number
-		totalDepositSpot: number
-		totalWithdrawSpot: number
-		removedRowsFiat: string[]
-		removedRowsSpot: string[]
+const cal = (
+	records: {
+		date: Date
+		fee: number
+		rate: number
+		value: number
+		status: 'deposited' | 'withdrawn'
+		condition: 'remove' | 'normal'
+	}[]
+) => {
+	return records.reduce<{
+		tableRows: string[]
+		depositEntries: number
+		withdrawEntries: number
+		removeEntries: number
+		totalDeposit: number
+		totalWithdraw: number
+		removedRows: string[]
 	}>(
 		(
 			{
-				depositFiatEntries,
-				depositSpotEntries,
-				tableFiatRows,
-				tableSpotRows,
-				totalDepositFiat,
-				totalWithdrawFiat,
-				totalDepositSpot,
-				totalWithdrawSpot,
-				withdrawFiatEntries,
-				withdrawSpotEntries,
-				removeEntriesFiat,
-				removeEntriesSpot,
-				removedRowsFiat,
-				removedRowsSpot,
+				depositEntries: depositFiatEntries,
+				tableRows: tableFiatRows,
+				totalDeposit: totalDepositFiat,
+				totalWithdraw: totalWithdrawFiat,
+				withdrawEntries: withdrawFiatEntries,
+				removeEntries: removeEntriesFiat,
+				removedRows: removedRowsFiat,
 			},
 			{ fee, date, rate, value, status, condition },
 			i
 		) => {
-			const signFiat = status === 'deposited' ? '+' : '-'
-
-			const signSpot = status === 'deposited' ? '+' : '-'
+			const sign = status === 'deposited' ? '+' : '-'
 
 			const fee_ = fee / 100
 
-			const rowFiat = `${i + 1} | ${format(date, 'PPpp')} | ${signFiat}${value} | ${rate} | ${fee} | ${signFiat}${(
-				(value / rate) *
-				(1 - fee_)
-			).toFixed(2)}`
-
-			const rowSpot = `${i + 1} | ${format(date, 'PPpp')} | ${signSpot}${value} | ${rate} | ${fee} | ${signSpot}${(
+			const row = `${i + 1} | ${format(date, 'PPpp')} | ${sign}${value} | ${rate} | ${fee} | ${sign}${(
 				(value / rate) *
 				(1 - fee_)
 			).toFixed(2)}`
 
 			return {
-				totalWithdrawFiat:
+				totalWithdraw:
 					totalWithdrawFiat +
 					(status === 'withdrawn' && condition === 'normal'
 						? value * (1 - fee_)
 						: 0),
-				totalWithdrawSpot:
-					totalWithdrawSpot +
-					(status === 'withdrawn' && condition === 'normal'
-						? value * (1 - fee_)
-						: 0),
-				totalDepositFiat:
+				totalDeposit:
 					totalDepositFiat +
 					(status === 'deposited' && condition === 'normal'
 						? value * (1 - fee_)
 						: 0),
 
-				totalDepositSpot:
-					totalDepositSpot +
-					(status === 'deposited' && condition === 'normal'
-						? value * (1 - fee_)
-						: 0),
-				depositFiatEntries:
-					depositFiatEntries + (status === 'deposited' ? 1 : 0),
-				depositSpotEntries:
-					depositSpotEntries + (status === 'deposited' ? 1 : 0),
-				withdrawFiatEntries:
-					withdrawFiatEntries + (status === 'withdrawn' ? 1 : 0),
-				withdrawSpotEntries:
-					withdrawSpotEntries + (status === 'withdrawn' ? 1 : 0),
-				removeEntriesFiat: removeEntriesFiat + (condition === 'remove' ? 1 : 0),
-				removeEntriesSpot: removeEntriesSpot + (condition === 'remove' ? 1 : 0),
-				tableFiatRows: [
+				depositEntries: depositFiatEntries + (status === 'deposited' ? 1 : 0),
+				withdrawEntries: withdrawFiatEntries + (status === 'withdrawn' ? 1 : 0),
+				removeEntries: removeEntriesFiat + (condition === 'remove' ? 1 : 0),
+				tableRows: [
 					...tableFiatRows,
 					...(condition === 'normal' &&
 					(status === 'deposited' || status === 'withdrawn')
-						? [rowFiat]
+						? [row]
 						: []),
 				],
-				tableSpotRows: [
-					...tableSpotRows,
-					...(condition === 'normal' &&
-					(status === 'deposited' || status === 'withdrawn')
-						? [rowSpot]
-						: []),
-				],
-				removedRowsFiat: [
+
+				removedRows: [
 					...removedRowsFiat,
-					...(condition === 'remove' ? [rowFiat] : []),
-				],
-				removedRowsSpot: [
-					...removedRowsSpot,
-					...(condition === 'remove' ? [rowSpot] : []),
+					...(condition === 'remove' ? [row] : []),
 				],
 			}
 		},
 		{
-			tableFiatRows: [],
-			tableSpotRows: [],
-			depositFiatEntries: 0,
-			depositSpotEntries: 0,
-			withdrawFiatEntries: 0,
-			withdrawSpotEntries: 0,
-			removeEntriesFiat: 0,
-			removeEntriesSpot: 0,
-			totalDepositFiat: 0,
-			totalWithdrawFiat: 0,
-			totalDepositSpot: 0,
-			totalWithdrawSpot: 0,
-			removedRowsFiat: [],
-			removedRowsSpot: [],
+			tableRows: [],
+			depositEntries: 0,
+			withdrawEntries: 0,
+			removeEntries: 0,
+			totalDeposit: 0,
+			totalWithdraw: 0,
+			removedRows: [],
 		}
 	)
+}
+
+export const report = () => {
+	const { recordsFiat, recordsSpot, rate, fee } = state
+
+	const {
+		depositEntries: depositEntriesFiat,
+		removeEntries: removeEntriesFiat,
+		removedRows: removedRowsFiat,
+		totalDeposit: totalDepositFiat,
+		tableRows: tableRowsFiat,
+		totalWithdraw: totalWithdrawFiat,
+		withdrawEntries: withdrawEntriesFiat,
+	} = cal(Object.values(recordsFiat))
+
+	const {
+		depositEntries: depositEntriesSpot,
+		removeEntries: removeEntriesSpot,
+		removedRows: removedRowsSpot,
+		totalDeposit: totalDepositSpot,
+		tableRows: tableRowsSpot,
+		totalWithdraw: totalWithdrawSpot,
+		withdrawEntries: withdrawEntriesSpot,
+	} = cal(Object.values(recordsSpot))
+
 	const balanceFiat = totalDepositFiat - totalWithdrawFiat
 	const balanceSpot = totalDepositSpot - totalWithdrawSpot
-	const tableFiatHeader = `
+	const tableFiat = `
 ID | 时间 | 数额(RM) | 兑换率 | 手续费 | 数额(USDT)
 ---|------|----------|--------|--------|------------
-${tableFiatRows.join('\n')}
+${tableRowsFiat.join('\n')}
 `
 
-	const tableSpotHeader = `
+	const tableSpot = `
 ID | 时间 | 数额(RM) | 兑换率 | 手续费 | 数额(USDT)
 ---|------|----------|--------|--------|------------
-${tableSpotRows.join('\n')}
+${tableRowsSpot.join('\n')}
 `
 
-	const removedFiatHeader = `
+	const removedFiat = `
   ID | 时间 | 数额(RM) | 兑换率 | 手续费 | 数额(USDT)
   ---|------|----------|--------|--------|------------
   ${removedRowsFiat.join('\n')}
 `
 
-	const removedSpotHeader = `
+	const removedSpot = `
 ID | 时间 | 数额(RM) | 兑换率 | 手续费 | 数额(USDT)
 ---|------|----------|--------|--------|------------
 ${removedRowsSpot.join('\n')}
@@ -174,19 +134,19 @@ ${removedRowsSpot.join('\n')}
 
 	return `
 记账管理机器人:
-入款(${depositFiatEntries}笔):
-取款(${withdrawFiatEntries}笔):
-${tableFiatHeader}
+入款(${depositEntriesFiat}笔):
+取款(${withdrawEntriesFiat}笔):
+${tableFiat}
 
-法币转换(${depositSpotEntries}笔):
-法币取款(${withdrawSpotEntries}笔):
-${tableSpotHeader}
+法币转换(${depositEntriesSpot}笔):
+法币取款(${withdrawEntriesSpot}笔):
+${tableSpot}
 
 移除 Fiat 记录(${removeEntriesFiat}笔):
-${removedFiatHeader}
+${removedFiat}
 
 移除 Spot 记录(${removeEntriesSpot}笔):
-${removedSpotHeader}
+${removedSpot}
 
 手续费：${fee}%
 兑换率：${rate}

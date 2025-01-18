@@ -11,7 +11,23 @@ export const commandConvert = async ({
 	idChat: number
 	idReplyTo: number
 }) => {
-	if (coerce.number().min(0).safeParse(value).success) {
+	if (
+		coerce
+			.number()
+			.min(0)
+			.max(
+				Object.values(state.recordsFiat).reduce(
+					(acc, { value, status, condition }) => {
+						return (
+							acc +
+							(status === 'deposited' && condition === 'normal' ? value : 0)
+						)
+					},
+					0
+				)
+			)
+			.safeParse(value).success
+	) {
 		const length = Object.keys(state.recordsSpot).length
 		state.recordsSpot[length + 1] = {
 			value: Number(value),
