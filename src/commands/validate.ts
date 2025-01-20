@@ -21,6 +21,7 @@ export const validate = async ({
 		'withdraw',
 		'withdrawSpot',
 		'restore',
+		'restoreSpot',
 		'restart',
 		'上课',
 		'下课',

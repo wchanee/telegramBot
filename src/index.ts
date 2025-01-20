@@ -14,6 +14,7 @@ import {
 	validate,
 	commandRestart,
 	commandRestore,
+	commandRestoreSpot,
 	commandEnableChat,
 	commandRestrictChat,
 } from '@/commands'
@@ -74,6 +75,8 @@ bot.on('message', async msg => {
 	if (operation === 'withdrawSpot') await commandWithdrawSpot(data)
 
 	if (operation === 'restore') await commandRestore(data)
+
+	if (operation === 'restoreSpot') await commandRestoreSpot(data)
 })
 
 bot.on('callback_query', query => {
