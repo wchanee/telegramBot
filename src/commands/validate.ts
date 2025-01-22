@@ -11,19 +11,21 @@ export const validate = async ({
 	idReplyTo: number
 }) => {
 	const { success } = enum_([
-		'start',
-		'rate',
-		'fee',
-		'add',
-		'remove',
-		'withdraw',
-		'restore',
-		'restart',
+		'开工',
+		'设置汇率',
+		'设置费率',
+		'+',
+		'-',
+		'下发',
+		'移除',
+		'恢复',
+		'收工',
 		'上课',
 		'下课',
 	]).safeParse(operation)
 	if (!success)
 		await sendMessage({
+			hideReport: true,
 			idChat,
 			idReplyTo,
 			message: `❌ 指令不正确或格式错误！`,

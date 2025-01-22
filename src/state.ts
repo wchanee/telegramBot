@@ -4,7 +4,7 @@ export const state = {
 		fee: number
 		rate: number
 		value: number
-		status: 'deposited' | 'withdrawn'
+		status: 'deposited' | 'withdrawn' | 'withdrawnissue'
 		condition: 'remove' | 'normal'
 	}[],
 	rate: 4.45, // Exchange rate

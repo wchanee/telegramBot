@@ -6,8 +6,9 @@ import {
 	commandInactive,
 	commandFee,
 	commandAdd,
-	commandRemove,
 	commandWithdraw,
+	commandIssue,
+	commandRemove,
 	validate,
 	commandRestart,
 	commandRestore,
@@ -26,7 +27,14 @@ bot.on('message', async msg => {
 	const idReplyTo = msg.message_id
 	const idUser = msg.from?.id
 
-	const [operation, value] = command.split(' ')
+	// const [operation, value] = command.split(' ')
+
+	const match = command.match(
+		/^([+\-*/开工收工上课下课设置汇率设置费率下发移除恢复]+)(.*)$/
+	)
+	if (!match) return
+	const operation = match[1]
+	const value = match[2]?.trim()
 
 	const data = {
 		idChat,
@@ -40,9 +48,9 @@ bot.on('message', async msg => {
 
 	await authorization(data)
 
-	if (operation === 'start') await commandStart(idChat)
+	if (operation === '开工') await commandStart(idChat)
 
-	if (operation === 'restart') await commandRestart(idChat)
+	if (operation === '收工') await commandRestart(idChat)
 
 	if (!state.isActive) {
 		await commandInactive(data)
@@ -53,17 +61,19 @@ bot.on('message', async msg => {
 
 	if (operation === '下课') await commandRestrictChat(idChat)
 
-	if (operation === 'rate') await commandRate(data)
+	if (operation === '设置汇率') await commandRate(data)
 
-	if (operation === 'fee') await commandFee(data)
+	if (operation === '设置费率') await commandFee(data)
 
-	if (operation === 'add') await commandAdd(data)
+	if (operation === '+') await commandAdd(data)
 
-	if (operation === 'remove') await commandRemove(data)
+	if (operation === '-') await commandWithdraw(data)
 
-	if (operation === 'withdraw') await commandWithdraw(data)
+	if (operation === '下发') await commandIssue(data)
 
-	if (operation === 'restore') await commandRestore(data)
+	if (operation === '移除') await commandRemove(data)
+
+	if (operation === '恢复') await commandRestore(data)
 })
 
 bot.on('callback_query', query => {
