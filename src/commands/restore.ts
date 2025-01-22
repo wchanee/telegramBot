@@ -13,10 +13,10 @@ export const commandRestore = async ({
 }) => {
 	const value_ = Number(value)
 	if (
-		coerce.number().min(0).int().max(state.recordsFiat.length).safeParse(value_)
+		coerce.number().min(0).int().max(state.records.length).safeParse(value_)
 			.success
 	) {
-		const record = state.recordsFiat[value_ - 1]
+		const record = state.records[value_ - 1]
 		if (record) {
 			record.condition = 'normal'
 			await sendMessage({

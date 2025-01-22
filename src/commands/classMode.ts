@@ -3,36 +3,33 @@ import { bot } from '@/bot'
 export const commandEnableChat = async (idChat: number) => {
 	try {
 		await bot.setChatPermissions(idChat, {
-			can_send_messages: true, // Allow everyone to send messages
-			can_send_polls: true, // Allow polls
-			can_add_web_page_previews: true, // Allow web page previews
-			can_change_info: false, // Disallow changing group info
-			can_invite_users: true, // Allow inviting users
-			can_pin_messages: false, // Disallow pinning messages
+			can_send_messages: true,
+			can_send_polls: true,
+			can_add_web_page_previews: true,
+			can_change_info: false,
+			can_invite_users: true,
+			can_pin_messages: false,
 		})
-		await bot.sendMessage(
-			idChat,
-			'✅ Everyone can now participate in the conversation.'
-		)
+		await bot.sendMessage(idChat, '✅ 群中每个人现在都可以参与对话。')
 	} catch (error) {
-		console.error('Error enabling chat:', error)
-		await bot.sendMessage(idChat, '❌ Failed to enable chat.')
+		console.error('启用聊天时出错:', error)
+		await bot.sendMessage(idChat, '❌ 未能成功启用聊天。')
 	}
 }
 
 export const commandRestrictChat = async (idChat: number) => {
 	try {
 		await bot.setChatPermissions(idChat, {
-			can_send_messages: false, // Restrict normal users from sending messages
-			can_send_polls: false, // Disallow polls
-			can_add_web_page_previews: false, // Disallow web page previews
-			can_change_info: false, // Disallow changing group info
-			can_invite_users: false, // Disallow inviting users
-			can_pin_messages: false, // Disallow pinning messages
+			can_send_messages: false,
+			can_send_polls: false,
+			can_add_web_page_previews: false,
+			can_change_info: false,
+			can_invite_users: false,
+			can_pin_messages: false,
 		})
-		await bot.sendMessage(idChat, '🚫 Only admins can send messages now.')
+		await bot.sendMessage(idChat, '🚫 群中现在只有管理员可以发送消息。')
 	} catch (error) {
-		console.error('Error restricting chat:', error)
-		await bot.sendMessage(idChat, '❌ Failed to restrict chat.')
+		console.error('限制聊天时出错:', error)
+		await bot.sendMessage(idChat, '❌ 未能成功限制聊天。')
 	}
 }

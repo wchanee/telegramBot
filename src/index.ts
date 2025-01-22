@@ -5,16 +5,12 @@ import {
 	commandRate,
 	commandInactive,
 	commandFee,
-	commandDeposit,
-	commandConvert,
+	commandAdd,
 	commandRemove,
-	commandRemoveSpot,
 	commandWithdraw,
-	commandWithdrawSpot,
 	validate,
 	commandRestart,
 	commandRestore,
-	commandRestoreSpot,
 	commandEnableChat,
 	commandRestrictChat,
 } from '@/commands'
@@ -26,7 +22,7 @@ import { commandPDF } from './commands/pdf'
 bot.on('message', async msg => {
 	if (!msg.text) return
 	const idChat = msg.chat.id
-	const command = msg.text.trim()
+	const command = msg.text
 	const idReplyTo = msg.message_id
 	const idUser = msg.from?.id
 
@@ -38,7 +34,6 @@ bot.on('message', async msg => {
 		idUser,
 		value,
 	}
-
 	const success = await validate({ ...data, operation })
 
 	if (!success) return
@@ -62,21 +57,13 @@ bot.on('message', async msg => {
 
 	if (operation === 'fee') await commandFee(data)
 
-	if (operation === 'add') await commandDeposit(data)
-
-	if (operation === 'convert') await commandConvert(data)
+	if (operation === 'add') await commandAdd(data)
 
 	if (operation === 'remove') await commandRemove(data)
 
-	if (operation === 'removeSpot') await commandRemoveSpot(data)
-
 	if (operation === 'withdraw') await commandWithdraw(data)
 
-	if (operation === 'withdrawSpot') await commandWithdrawSpot(data)
-
 	if (operation === 'restore') await commandRestore(data)
-
-	if (operation === 'restoreSpot') await commandRestoreSpot(data)
 })
 
 bot.on('callback_query', query => {
