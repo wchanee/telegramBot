@@ -5,13 +5,16 @@ import {
 	commandRate,
 	commandInactive,
 	commandFee,
-	commandAdd,
-	commandWithdraw,
-	commandIssue,
+	commandDeposit,
+	commandConvert,
 	commandRemove,
+	commandRemoveSpot,
+	commandWithdraw,
+	commandWithdrawSpot,
 	validate,
 	commandRestart,
 	commandRestore,
+	commandRestoreSpot,
 	commandEnableChat,
 	commandRestrictChat,
 } from '@/commands'
@@ -23,18 +26,11 @@ import { commandPDF } from './commands/pdf'
 bot.on('message', async msg => {
 	if (!msg.text) return
 	const idChat = msg.chat.id
-	const command = msg.text
+	const command = msg.text.trim()
 	const idReplyTo = msg.message_id
 	const idUser = msg.from?.id
 
-	// const [operation, value] = command.split(' ')
-
-	const match = command.match(
-		/^([+\-*/开工收工上课下课设置汇率设置费率下发移除恢复]+)(.*)$/
-	)
-	if (!match) return
-	const operation = match[1]
-	const value = match[2]?.trim()
+	const [operation, value = ''] = command.split(' ')
 
 	const data = {
 		idChat,
@@ -42,15 +38,16 @@ bot.on('message', async msg => {
 		idUser,
 		value,
 	}
+
 	const success = await validate({ ...data, operation })
 
 	if (!success) return
 
 	await authorization(data)
 
-	if (operation === '开工') await commandStart(idChat)
+	if (operation === 'start') await commandStart(idChat)
 
-	if (operation === '收工') await commandRestart(idChat)
+	if (operation === 'restart') await commandRestart(idChat)
 
 	if (!state.isActive) {
 		await commandInactive(data)
@@ -61,19 +58,25 @@ bot.on('message', async msg => {
 
 	if (operation === '下课') await commandRestrictChat(idChat)
 
-	if (operation === '设置汇率') await commandRate(data)
+	if (operation === 'rate') await commandRate(data)
 
-	if (operation === '设置费率') await commandFee(data)
+	if (operation === 'fee') await commandFee(data)
 
-	if (operation === '+') await commandAdd(data)
+	if (operation === 'add') await commandDeposit(data)
 
-	if (operation === '-') await commandWithdraw(data)
+	if (operation === 'convert') await commandConvert(data)
 
-	if (operation === '下发') await commandIssue(data)
+	if (operation === 'remove') await commandRemove(data)
 
-	if (operation === '移除') await commandRemove(data)
+	if (operation === 'removeSpot') await commandRemoveSpot(data)
 
-	if (operation === '恢复') await commandRestore(data)
+	if (operation === 'withdraw') await commandWithdraw(data)
+
+	if (operation === 'withdrawSpot') await commandWithdrawSpot(data)
+
+	if (operation === 'restore') await commandRestore(data)
+
+	if (operation === 'restoreSpot') await commandRestoreSpot(data)
 })
 
 bot.on('callback_query', query => {

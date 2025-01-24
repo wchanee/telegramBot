@@ -10,7 +10,7 @@ export const authorization = async ({
 	idReplyTo: number
 }) => {
 	try {
-		if (!idUser) throw new Error('没有用户ID')
+		if (!idUser) throw new Error('No user id')
 		const ChatMember = await bot.getChatMember(idChat, idUser)
 		if (
 			ChatMember.status === 'administrator' ||
@@ -21,7 +21,7 @@ export const authorization = async ({
 			throw new Error()
 		}
 	} catch (error) {
-		console.error('❌ 授权错误: ', error)
+		console.error('❌ Authorization error: ', error)
 		await bot.sendMessage(
 			idChat,
 			`❌ 您没有权限或权限已过期，请打开机器人申请使用或联系客服授权。`,

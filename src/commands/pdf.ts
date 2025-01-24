@@ -23,6 +23,7 @@ export const commandPDF = async (idChat: number) => {
 		doc.end()
 		// https://github.com/yagop/node-telegram-bot-api/issues/1071
 		process.env.NTBA_FIX_350 = 'true'
+		// Send the PDF to Telegram
 		await bot.sendDocument(
 			idChat,
 			pdfStream,

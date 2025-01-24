@@ -11,15 +11,18 @@ export const validate = async ({
 	idReplyTo: number
 }) => {
 	const { success } = enum_([
-		'开工',
-		'设置汇率',
-		'设置费率',
-		'+',
-		'-',
-		'下发',
-		'移除',
-		'恢复',
-		'收工',
+		'start',
+		'rate',
+		'fee',
+		'add',
+		'convert',
+		'remove',
+		'removeSpot',
+		'withdraw',
+		'withdrawSpot',
+		'restore',
+		'restoreSpot',
+		'restart',
 		'上课',
 		'下课',
 	]).safeParse(operation)

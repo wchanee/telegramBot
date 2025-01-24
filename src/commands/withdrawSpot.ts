@@ -2,7 +2,7 @@ import { state } from '@/state'
 import { coerce } from 'zod'
 import { sendMessage } from './__utils'
 
-export const commandWithdraw = async ({
+export const commandWithdrawSpot = async ({
 	idChat,
 	idReplyTo,
 	value,
@@ -16,7 +16,7 @@ export const commandWithdraw = async ({
 			.number()
 			.min(0)
 			.max(
-				Object.values(state.recordsFiat).reduce(
+				Object.values(state.recordsSpot).reduce(
 					(acc, { value, status, condition }) => {
 						return (
 							acc +
@@ -28,8 +28,8 @@ export const commandWithdraw = async ({
 			)
 			.safeParse(value).success
 	) {
-		const length = Object.keys(state.recordsFiat).length
-		state.recordsFiat[length + 1] = {
+		const length = Object.keys(state.recordsSpot).length
+		state.recordsSpot[length + 1] = {
 			value: Number(value),
 			fee: state.fee,
 			rate: state.rate,
@@ -46,7 +46,7 @@ export const commandWithdraw = async ({
 		await sendMessage({
 			idChat,
 			idReplyTo,
-			message: `❌ 格式错误，正确格式为 withdraw[-number, 例:-100]。`,
+			message: `❌ 格式错误，正确格式为 withdrawSpot[下发Spotnumber, 例:下发Spot100]。`,
 		})
 	}
 }

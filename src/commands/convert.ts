@@ -2,7 +2,7 @@ import { state } from '@/state'
 import { coerce } from 'zod'
 import { sendMessage } from './__utils'
 
-export const commandWithdraw = async ({
+export const commandConvert = async ({
 	idChat,
 	idReplyTo,
 	value,
@@ -28,25 +28,25 @@ export const commandWithdraw = async ({
 			)
 			.safeParse(value).success
 	) {
-		const length = Object.keys(state.recordsFiat).length
-		state.recordsFiat[length + 1] = {
+		const length = Object.keys(state.recordsSpot).length
+		state.recordsSpot[length + 1] = {
 			value: Number(value),
 			fee: state.fee,
 			rate: state.rate,
-			status: 'withdrawn',
+			status: 'deposited',
 			date: new Date(),
 			condition: 'normal',
 		}
 		await sendMessage({
 			idChat,
 			idReplyTo,
-			message: `✔️ 下发成功！`,
+			message: `✔️ 转换成功！`,
 		})
 	} else {
 		await sendMessage({
 			idChat,
 			idReplyTo,
-			message: `❌ 格式错误，正确格式为 withdraw[-number, 例:-100]。`,
+			message: `❌ 格式错误，正确格式为 convert[转换number, 例:转换100]。`,
 		})
 	}
 }

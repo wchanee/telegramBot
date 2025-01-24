@@ -2,7 +2,7 @@
 // import { coerce } from 'zod'
 // import { sendMessage } from './__utils'
 
-// export const commandRestore = async ({
+// export const commandRestoreSpot = async ({
 // 	idChat,
 // 	idReplyTo,
 // 	value,
@@ -39,7 +39,7 @@ import { state } from '@/state'
 import { coerce } from 'zod'
 import { sendMessage } from './__utils'
 
-export const commandRestore = async ({
+export const commandRestoreSpot = async ({
 	idChat,
 	idReplyTo,
 	value,
@@ -60,7 +60,7 @@ export const commandRestore = async ({
 		return
 	}
 
-	const record = state.recordsFiat[value]
+	const record = state.recordsSpot[value]
 	if (record) {
 		record.condition = 'normal'
 		await sendMessage({

@@ -2,7 +2,7 @@ import { state } from '@/state'
 import { coerce } from 'zod'
 import { sendMessage } from './__utils'
 
-export const commandIssue = async ({
+export const commandDeposit = async ({
 	idChat,
 	idReplyTo,
 	value,
@@ -11,26 +11,26 @@ export const commandIssue = async ({
 	idChat: number
 	idReplyTo: number
 }) => {
-	const value_ = Number(value)
-	if (coerce.number().min(0).safeParse(value_).success) {
-		state.records.push({
-			value: value_,
+	if (coerce.number().min(0).safeParse(value).success) {
+		const length = Object.keys(state.recordsFiat).length
+		state.recordsFiat[length + 1] = {
+			value: Number(value),
 			fee: state.fee,
 			rate: state.rate,
-			status: 'withdrawnissue',
+			status: 'deposited',
 			date: new Date(),
 			condition: 'normal',
-		})
+		}
 		await sendMessage({
 			idChat,
 			idReplyTo,
-			message: `✔️ 下发成功！`,
+			message: `✔️ 入款成功！`,
 		})
 	} else {
 		await sendMessage({
 			idChat,
 			idReplyTo,
-			message: `❌ 格式错误，正确格式为 [下发number, 例:下发100]。`,
+			message: `❌ 格式错误，正确格式为 add[+number, 例:+100]。`,
 		})
 	}
 }
