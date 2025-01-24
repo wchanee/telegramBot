@@ -30,7 +30,15 @@ bot.on('message', async msg => {
 	const idReplyTo = msg.message_id
 	const idUser = msg.from?.id
 
-	const [operation, value = ''] = command.split(' ')
+	// const [operation, value = ''] = command.split(' ')
+
+	const match = command.match(
+		/^([+\-*/开工收工上课下课设置汇率设置费率下发移除恢复]+)(.*)$/
+	)
+	if (!match) return
+
+	const operation = match[1]
+	const value = match[2]?.trim() || ''
 
 	const data = {
 		idChat,

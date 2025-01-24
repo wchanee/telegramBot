@@ -72,7 +72,7 @@ export const commandRestoreSpot = async ({
 		await sendMessage({
 			idChat,
 			idReplyTo,
-			message: `❌ 记录未找到，请检查输入的ID是否正确。`,
+			message: `❌ 记录未找到, 请检查输入的ID是否正确。`,
 		})
 	}
 }

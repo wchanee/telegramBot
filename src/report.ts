@@ -129,28 +129,22 @@ ${removedRowsSpot.join('\n')}
 入款(${depositEntriesFiat}笔):
 取款(${withdrawEntriesFiat}笔):
 ${tableFiat}
-
 法币转换(${depositEntriesSpot}笔):
 法币取款(${withdrawEntriesSpot}笔):
 ${tableSpot}
-
-移除 Fiat 记录(${removeEntriesFiat}笔):
+移除记录(${removeEntriesFiat}笔):
 ${removedFiat}
-
 移除 Spot 记录(${removeEntriesSpot}笔):
 ${removedSpot}
+入款费率：${fee}%
+固定汇率：${rate}
 
-手续费：${fee}%
-兑换率：${rate}
+总入款: ${(totalDepositFiat / rate).toFixed(2)} (USDT)
+总取款: ${(totalWithdrawFiat / rate).toFixed(2)} (USDT)
+总剩余: ${(balanceFiat / rate).toFixed(2)} (USDT)
 
-Fiat:
-总入款: RM${totalDepositFiat.toFixed(2)} / USDT${(totalDepositFiat / rate).toFixed(2)}
-总取款: RM${totalWithdrawFiat.toFixed(2)} / USDT${(totalWithdrawFiat / rate).toFixed(2)}
-剩余: RM${balanceFiat.toFixed(2)} / USDT${(balanceFiat / rate).toFixed(2)}
-
-Spot:
-总转换: RM${totalDepositSpot.toFixed(2)} / USDT${(totalDepositSpot / rate).toFixed(2)}
-总下发/取款: RM${totalWithdrawSpot.toFixed(2)} / USDT${(totalWithdrawSpot / rate).toFixed(2)}
-剩余: RM${balanceSpot.toFixed(2)} / USDT${(balanceSpot / rate).toFixed(2)}
+总下发: ${(totalDepositSpot / rate).toFixed(2)} (USDT)
+已下发: ${(totalWithdrawSpot / rate).toFixed(2)} (USDT)
+剩下发: ${(balanceSpot / rate).toFixed(2)} (USDT)
   `
 }
