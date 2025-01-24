@@ -2,7 +2,7 @@ import { state } from '@/state'
 import { coerce } from 'zod'
 import { sendMessage } from './__utils'
 
-export const commandConvert = async ({
+export const commandIssue = async ({
 	idChat,
 	idReplyTo,
 	value,
@@ -40,13 +40,13 @@ export const commandConvert = async ({
 		await sendMessage({
 			idChat,
 			idReplyTo,
-			message: `✔️ 转换成功！`,
+			message: `✔️ 下发成功！`,
 		})
 	} else {
 		await sendMessage({
 			idChat,
 			idReplyTo,
-			message: `❌ 格式错误，正确格式为 convert[转换number, 例:转换100]。`,
+			message: `❌ 格式错误，正确格式为 [下发number, 例:下发100]。`,
 		})
 	}
 }

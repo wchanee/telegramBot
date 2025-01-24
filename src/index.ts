@@ -1,17 +1,17 @@
 import {
+	validate,
 	commandStart,
 	commandNotice,
 	commandHelp,
-	commandRate,
 	commandInactive,
+	commandRate,
 	commandFee,
-	commandDeposit,
-	commandConvert,
-	commandRemove,
-	commandRemoveSpot,
+	commandAdd,
 	commandWithdraw,
 	commandWithdrawSpot,
-	validate,
+	commandIssue,
+	commandRemove,
+	commandRemoveSpot,
 	commandRestart,
 	commandRestore,
 	commandRestoreSpot,
@@ -45,9 +45,9 @@ bot.on('message', async msg => {
 
 	await authorization(data)
 
-	if (operation === 'start') await commandStart(idChat)
+	if (operation === '开工') await commandStart(idChat)
 
-	if (operation === 'restart') await commandRestart(idChat)
+	if (operation === '收工') await commandRestart(idChat)
 
 	if (!state.isActive) {
 		await commandInactive(data)
@@ -58,23 +58,23 @@ bot.on('message', async msg => {
 
 	if (operation === '下课') await commandRestrictChat(idChat)
 
-	if (operation === 'rate') await commandRate(data)
+	if (operation === '设置汇率') await commandRate(data)
 
-	if (operation === 'fee') await commandFee(data)
+	if (operation === '设置费率') await commandFee(data)
 
-	if (operation === 'add') await commandDeposit(data)
+	if (operation === '+') await commandAdd(data)
 
-	if (operation === 'convert') await commandConvert(data)
-
-	if (operation === 'remove') await commandRemove(data)
-
-	if (operation === 'removeSpot') await commandRemoveSpot(data)
-
-	if (operation === 'withdraw') await commandWithdraw(data)
+	if (operation === '-') await commandWithdraw(data)
 
 	if (operation === 'withdrawSpot') await commandWithdrawSpot(data)
 
-	if (operation === 'restore') await commandRestore(data)
+	if (operation === '下发') await commandIssue(data)
+
+	if (operation === '移除') await commandRemove(data)
+
+	if (operation === 'removeSpot') await commandRemoveSpot(data)
+
+	if (operation === '恢复') await commandRestore(data)
 
 	if (operation === 'restoreSpot') await commandRestoreSpot(data)
 })

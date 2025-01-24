@@ -72,7 +72,8 @@ export const commandRestore = async ({
 		await sendMessage({
 			idChat,
 			idReplyTo,
-			message: `❌ 记录未找到，请检查输入的ID是否正确。`,
+			message: `❌ 格式错误，正确格式为 [恢复id, 例:恢复1],
+			并且id不可大于记录数量。`,
 		})
 	}
 }

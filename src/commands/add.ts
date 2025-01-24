@@ -2,7 +2,7 @@ import { state } from '@/state'
 import { coerce } from 'zod'
 import { sendMessage } from './__utils'
 
-export const commandDeposit = async ({
+export const commandAdd = async ({
 	idChat,
 	idReplyTo,
 	value,

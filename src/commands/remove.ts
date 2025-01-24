@@ -18,7 +18,7 @@ export const commandRemove = async ({
 			await sendMessage({
 				idChat,
 				idReplyTo,
-				message: `✔️ 移除Fiat记录成功!`,
+				message: `✔️ 移除记录成功!`,
 			})
 		}
 	} else {
@@ -26,7 +26,7 @@ export const commandRemove = async ({
 			idChat,
 			idReplyTo,
 			message: `
-			❌ 格式错误，正确格式为 移除[移除id, 例:移除1],
+			❌ 格式错误，正确格式为 [移除id, 例:移除1],
 			并且id不可大于记录数量。`,
 		})
 	}

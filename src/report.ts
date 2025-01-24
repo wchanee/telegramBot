@@ -37,7 +37,7 @@ const cal = (
 
 			const fee_ = fee / 100
 
-			const row = `${i + 1} | ${format(date, 'PPpp')} | ${sign}${value} | ${rate} | ${fee} | ${sign}${(
+			const row = `${i + 1}, ${format(date, 'PPpp')}, ${sign}${value} / ${rate} (${fee}%) = ${sign}${(
 				(value / rate) *
 				(1 - fee_)
 			).toFixed(2)}`
@@ -109,26 +109,18 @@ export const report = () => {
 	const balanceFiat = totalDepositFiat - totalWithdrawFiat
 	const balanceSpot = totalDepositSpot - totalWithdrawSpot
 	const tableFiat = `
-ID | 时间 | 数额(RM) | 兑换率 | 手续费 | 数额(USDT)
----|------|----------|--------|--------|------------
 ${tableRowsFiat.join('\n')}
 `
 
 	const tableSpot = `
-ID | 时间 | 数额(RM) | 兑换率 | 手续费 | 数额(USDT)
----|------|----------|--------|--------|------------
 ${tableRowsSpot.join('\n')}
 `
 
 	const removedFiat = `
-  ID | 时间 | 数额(RM) | 兑换率 | 手续费 | 数额(USDT)
-  ---|------|----------|--------|--------|------------
-  ${removedRowsFiat.join('\n')}
+${removedRowsFiat.join('\n')}
 `
 
 	const removedSpot = `
-ID | 时间 | 数额(RM) | 兑换率 | 手续费 | 数额(USDT)
----|------|----------|--------|--------|------------
 ${removedRowsSpot.join('\n')}
 `
 
