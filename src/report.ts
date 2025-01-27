@@ -9,7 +9,8 @@ const cal = (
 		value: number
 		status: 'deposited' | 'withdrawn'
 		condition: 'remove' | 'normal'
-	}[]
+	}[],
+	useIssueRow: boolean
 ) => {
 	return records.reduce<{
 		tableRows: string[]
@@ -42,15 +43,20 @@ const cal = (
 				(1 - fee_)
 			).toFixed(2)}`
 
+			const issueRow = `${format(date, 'PPpp')}, ${(
+				(value / rate) *
+				(1 - fee_)
+			).toFixed(2)}U`
+
 			return {
-				totalWithdraw:
-					totalWithdrawFiat +
-					(status === 'withdrawn' && condition === 'normal'
-						? value * (1 - fee_)
-						: 0),
 				totalDeposit:
 					totalDepositFiat +
 					(status === 'deposited' && condition === 'normal'
+						? value * (1 - fee_)
+						: 0),
+				totalWithdraw:
+					totalWithdrawFiat +
+					(status === 'withdrawn' && condition === 'normal'
 						? value * (1 - fee_)
 						: 0),
 
@@ -61,7 +67,7 @@ const cal = (
 					...tableFiatRows,
 					...(condition === 'normal' &&
 					(status === 'deposited' || status === 'withdrawn')
-						? [row]
+						? [useIssueRow ? issueRow : row]
 						: []),
 				],
 
@@ -94,7 +100,7 @@ export const report = () => {
 		tableRows: tableRowsFiat,
 		totalWithdraw: totalWithdrawFiat,
 		withdrawEntries: withdrawEntriesFiat,
-	} = cal(Object.values(recordsFiat))
+	} = cal(Object.values(recordsFiat), false)
 
 	const {
 		depositEntries: depositEntriesSpot,
@@ -104,7 +110,7 @@ export const report = () => {
 		tableRows: tableRowsSpot,
 		totalWithdraw: totalWithdrawSpot,
 		withdrawEntries: withdrawEntriesSpot,
-	} = cal(Object.values(recordsSpot))
+	} = cal(Object.values(recordsSpot), true)
 
 	const balanceFiat = totalDepositFiat - totalWithdrawFiat
 	const balanceSpot = totalDepositSpot - totalWithdrawSpot
@@ -129,22 +135,19 @@ ${removedRowsSpot.join('\n')}
 入款(${depositEntriesFiat}笔):
 取款(${withdrawEntriesFiat}笔):
 ${tableFiat}
-法币转换(${depositEntriesSpot}笔):
-法币取款(${withdrawEntriesSpot}笔):
-${tableSpot}
 移除记录(${removeEntriesFiat}笔):
 ${removedFiat}
-移除 Spot 记录(${removeEntriesSpot}笔):
-${removedSpot}
+下发(${depositEntriesSpot}笔):
+${tableSpot}
+
 入款费率：${fee}%
 固定汇率：${rate}
 
 总入款: ${(totalDepositFiat / rate).toFixed(2)} (USDT)
 总取款: ${(totalWithdrawFiat / rate).toFixed(2)} (USDT)
-总剩余: ${(balanceFiat / rate).toFixed(2)} (USDT)
+已下发: ${(totalDepositSpot / rate).toFixed(2)} (USDT)
 
-总下发: ${(totalDepositSpot / rate).toFixed(2)} (USDT)
-已下发: ${(totalWithdrawSpot / rate).toFixed(2)} (USDT)
-剩下发: ${(balanceSpot / rate).toFixed(2)} (USDT)
+总剩余(不扣除下发): ${(balanceFiat / rate).toFixed(2)} (USDT)
+总剩余(已扣除下发): ${(totalDepositSpot / rate).toFixed(2)} (USDT)
   `
 }
