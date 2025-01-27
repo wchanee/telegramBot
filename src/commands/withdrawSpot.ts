@@ -6,10 +6,12 @@ export const commandWithdrawSpot = async ({
 	idChat,
 	idReplyTo,
 	value,
+	hideReport = true,
 }: {
 	value: string | undefined
 	idChat: number
 	idReplyTo: number
+	hideReport?: boolean
 }) => {
 	if (
 		coerce
@@ -47,6 +49,7 @@ export const commandWithdrawSpot = async ({
 			idChat,
 			idReplyTo,
 			message: `❌ 格式错误，正确格式为 withdrawSpot [-number, 例:-100]。`,
+			hideReport,
 		})
 	}
 }

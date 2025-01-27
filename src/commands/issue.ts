@@ -6,10 +6,12 @@ export const commandIssue = async ({
 	idChat,
 	idReplyTo,
 	value,
+	hideReport = true,
 }: {
 	value: string | undefined
 	idChat: number
 	idReplyTo: number
+	hideReport?: boolean
 }) => {
 	if (
 		coerce
@@ -47,6 +49,7 @@ export const commandIssue = async ({
 			idChat,
 			idReplyTo,
 			message: `❌ 格式错误，正确格式为 [下发number, 例:下发100]。`,
+			hideReport,
 		})
 	}
 }

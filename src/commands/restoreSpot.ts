@@ -6,16 +6,19 @@ export const commandRestoreSpot = async ({
 	idChat,
 	idReplyTo,
 	value,
+	hideReport = true,
 }: {
 	value: string
 	idChat: number
 	idReplyTo: number
+	hideReport?: boolean
 }) => {
 	if (!state.recordsSpot[value]) {
 		await sendMessage({
 			idChat,
 			idReplyTo,
-			message: `❌ 格式错误，正确格式为 restore[恢复id, 例:恢复1], 并且id必须存在于记录中。`,
+			message: `❌ 格式错误，正确格式为 restoreSpot[恢复id, 例:恢复1], 并且ID必须存在于记录中。`,
+			hideReport,
 		})
 		return
 	}
@@ -32,7 +35,8 @@ export const commandRestoreSpot = async ({
 		await sendMessage({
 			idChat,
 			idReplyTo,
-			message: `❌ 记录未找到, 请检查输入的ID是否正确。`,
+			message: `❌ 格式错误，正确格式为 restoreSpot[恢复id, 例:恢复1], 并且ID必须存在于记录中。`,
+			hideReport,
 		})
 	}
 }
