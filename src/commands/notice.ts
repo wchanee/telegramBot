@@ -19,7 +19,6 @@ export const commandNotice = async (idChat: number) => {
 • 下发记录: 下发100
 • 清除账单: 清除今日账单 (TBC)
 • 查看账单: 显示账单 (TBC)
-• 群通知: 通知所有人 (TBC)
         `,
 		{
 			parse_mode: 'HTML',
