@@ -48,7 +48,7 @@ export const commandWithdrawSpot = async ({
 		await sendMessage({
 			idChat,
 			idReplyTo,
-			message: `❌ 格式错误，正确格式为 withdrawSpot [-number, 例:-100]。`,
+			message: `❌ 格式错误，正确格式为 withdrawSpot[-number, 例:-100]。`,
 			hideReport,
 		})
 	}
