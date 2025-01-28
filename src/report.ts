@@ -145,9 +145,7 @@ ${tableSpot}
 
 总入款: ${(totalDepositFiat / rate).toFixed(2)} (USDT)
 总取款: ${(totalWithdrawFiat / rate).toFixed(2)} (USDT)
+总剩余: ${(balanceFiat / rate).toFixed(2)} (USDT)
 已下发: ${(totalDepositSpot / rate).toFixed(2)} (USDT)
-
-总剩余(不扣除下发): ${(balanceFiat / rate).toFixed(2)} (USDT)
-总剩余(已扣除下发): ${(totalDepositSpot / rate).toFixed(2)} (USDT)
   `
 }

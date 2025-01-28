@@ -28,7 +28,7 @@ export const commandRemove = async ({
 			idChat,
 			idReplyTo,
 			message: `
-			❌ 格式错误，正确格式为 [移除id, 例:移除1], 并且id不可大于记录数量。`,
+			❌ 格式错误，正确格式为 [移除id, 例:移除1], 并且ID不可大于记录数量。`,
 			hideReport,
 		})
 	}
