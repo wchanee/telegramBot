@@ -25,6 +25,9 @@ export const validate = async ({
 		'收工',
 		'上课',
 		'下课',
+		'显示账单',
+		'清除今日账单',
+		'清除全部账单',
 	]).safeParse(operation)
 	if (!success)
 		await sendMessage({

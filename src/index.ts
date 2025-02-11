@@ -17,6 +17,9 @@ import {
 	commandRestoreSpot,
 	commandEnableChat,
 	commandRestrictChat,
+	commandDisplayReport,
+	commandClearTodayReport,
+	commandClearAllReport,
 } from '@/commands'
 import { bot } from '@/bot'
 import { state } from '@/state'
@@ -33,7 +36,7 @@ bot.on('message', async msg => {
 	// const [operation, value = ''] = command.split(' ')
 
 	const match = command.match(
-		/^([+\-*/开工收工上课下课设置汇率设置费率下发移除恢复]+)(.*)$/
+		/^([+\-*/开工收工上课下课设置汇率设置费率下发移除恢复显示账单清除今日账单清除全部账单]+)(.*)$/
 	)
 	if (!match) return
 
@@ -85,6 +88,12 @@ bot.on('message', async msg => {
 	if (operation === '恢复') await commandRestore(data)
 
 	if (operation === 'restoreSpot') await commandRestoreSpot(data)
+
+	if (operation === '显示账单') await commandDisplayReport(data)
+
+	if (operation === '清除今日账单') await commandClearTodayReport(data)
+
+	if (operation === '清除全部账单') await commandClearAllReport(data)
 })
 
 bot.on('callback_query', query => {

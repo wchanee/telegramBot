@@ -17,8 +17,8 @@ export const commandNotice = async (idChat: number) => {
 • 入款记录: +100
 • 取款记录: -100
 • 下发记录: 下发100
-• 清除账单: 清除今日账单 (TBC)
-• 查看账单: 显示账单 (TBC)
+• 查看账单: 显示账单
+• 清除账单: 清除今日账单 或 清除全部账单
         `,
 		{
 			parse_mode: 'HTML',
