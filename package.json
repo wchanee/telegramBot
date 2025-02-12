@@ -4,7 +4,7 @@
 	"version": "0.0.0",
 	"scripts": {
 		"prepublishOnly": "npm run build",
-		"build": "pkgroll --clean-dist && tsup",
+		"build": "pkgroll --clean-dist",
 		"test": "vitest",
 		"lint": "eslint --fix",
 		"tsc": "tsc",
@@ -50,7 +50,6 @@
 		"lint-staged": "^15.2.10",
 		"pkgroll": "^2.5.0",
 		"prettier": "^3.3.3",
-		"tsup": "^8.3.0",
 		"tsx": "^4.19.1",
 		"typescript": "^5.6.3",
 		"typescript-eslint": "^8.8.1",
